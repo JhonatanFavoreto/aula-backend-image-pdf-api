@@ -9,19 +9,15 @@ const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
-    console.log('🌱 Resetando tabela aluno...');
+    console.log('🌱 Resetando tabela exemplo...');
 
     // Remove todos os registros
-    // await prisma.aluno.deleteMany();
+    // await prisma.exemplo.deleteMany();
 
     console.log('📦 Inserindo novos registros...');
 
     await prisma.aluno.createMany({
-        data: [
-            { nome: 'João Silva', escola: 'Escola A', turma: 'Turma 1', foto: 'https://example.com/foto1.jpg' },
-            { nome: 'Maria Oliveira', escola: 'Escola B', turma: 'Turma 2', foto: 'https://example.com/foto2.jpg' },
-            { nome: 'Carlos Pereira', escola: 'Escola A', turma: 'Turma 1', foto: 'https://example.com/foto3.jpg' },
-        ],
+        data: [{ nome: 'Danilo do Valle' }, { nome: 'Nicolly' }],
     });
 
     console.log('✅ Seed concluído!');

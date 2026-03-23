@@ -1,7 +1,7 @@
 {
-  "name": "atividade-crud-api",
+  "name": "pdf",
   "version": "1.0.0",
-  "description": "",
+  "description": "pdf com api",
   "main": "server.js",
   "type": "module",
   "private": true,
@@ -9,14 +9,14 @@
     "dev": "cls && nodemon src/server.js"
   },
   "keywords": [],
-  "author": "Jhonatan Henrique Favoreto",
+  "author": "Pedro Escapalete",
   "license": "MIT",
   "dependencies": {
     "@prisma/adapter-pg": "^7.3.0",
     "@prisma/client": "^7.3.0",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
-    "fast-xml-parser": "^5.5.5",
+    "fast-xml-parser": "^5.5.8",
     "html-pdf-node": "^1.0.8",
     "multer": "^2.1.1",
     "pg": "^8.20.0",

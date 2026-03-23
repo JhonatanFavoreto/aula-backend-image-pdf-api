@@ -6,12 +6,12 @@ datasource db {
     provider = "postgresql"
 }
 
-model Aluno {
+model Exemplo {
     id        Int      @id @default(autoincrement())
-    nome      String
-    escola   String?
-    turma   String?
-    foto  String?
+    nome      String?
+    escola    String?
+    turma     String?
+    foto      String?
 
     @@map("aluno")
 }

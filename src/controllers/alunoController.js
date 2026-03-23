@@ -13,10 +13,10 @@ export const criar = async (req, res) => {
         const aluno = new AlunoModel({ nome, escola, turma, foto });
         const data = await aluno.criar();
 
-        res.status(201).json({ message: 'Registro criado com sucesso!', data });
+        res.status(201).json({ message: 'Registro de aluno criado com sucesso!', data });
     } catch (error) {
-        console.error('Erro ao criar:', error);
-        res.status(500).json({ error: 'Erro interno ao salvar o registro.' });
+        console.error('Erro ao criar aluno:', error);
+        res.status(500).json({ error: 'Erro interno ao salvar o registro de aluno.' });
     }
 };
 
@@ -46,13 +46,13 @@ export const buscarPorId = async (req, res) => {
         const aluno = await AlunoModel.buscarPorId(parseInt(id));
 
         if (!aluno) {
-            return res.status(404).json({ error: 'Registro não encontrado.' });
+            return res.status(404).json({ error: 'Registro não encontrado de aluno.' });
         }
 
         res.json({ data: aluno });
     } catch (error) {
         console.error('Erro ao buscar:', error);
-        res.status(500).json({ error: 'Erro ao buscar registro.' });
+        res.status(500).json({ error: 'Erro ao buscar registro de aluno.' });
     }
 };
 
@@ -95,14 +95,19 @@ export const deletar = async (req, res) => {
         const aluno = await AlunoModel.buscarPorId(parseInt(id));
 
         if (!aluno) {
-            return res.status(404).json({ error: 'Registro não encontrado para deletar.' });
+            return res
+                .status(404)
+                .json({ error: 'Registro de aluno não encontrado para deletar.' });
         }
 
         await aluno.deletar();
 
-        res.json({ message: `O registro "${aluno.nome}" foi deletado com sucesso!`, deletado: aluno });
+        res.json({
+            message: `O registro "${aluno.nome}" foi deletado com sucesso!`,
+            deletado: aluno,
+        });
     } catch (error) {
         console.error('Erro ao deletar:', error);
-        res.status(500).json({ error: 'Erro ao deletar registro.' });
+        res.status(500).json({ error: 'Erro ao deletar registro de aluno.' });
     }
 };

@@ -1,5 +1,5 @@
 import express from 'express';
-import * as controller from '../controllers/alunoController.js';
+import * as controller from '../controllers/alunosController.js';
 
 const router = express.Router();
 
