@@ -13,10 +13,10 @@ export const criar = async (req, res) => {
         const aluno = new AlunoModel({ nome, escola, turma, foto });
         const data = await aluno.criar();
 
-        res.status(201).json({ message: 'Registro de aluno criado com sucesso!', data });
+        res.status(201).json({ message: 'Aluno criado com sucesso!', data });
     } catch (error) {
         console.error('Erro ao criar aluno:', error);
-        res.status(500).json({ error: 'Erro interno ao salvar o registro de aluno.' });
+        res.status(500).json({ error: 'Erro interno ao salvar o aluno.' });
     }
 };
 
@@ -25,13 +25,13 @@ export const buscarTodos = async (req, res) => {
         const registros = await AlunoModel.buscarTodos(req.query);
 
         if (!registros || registros.length === 0) {
-            return res.status(200).json({ message: 'Nenhum registro encontrado.' });
+            return res.status(200).json({ message: 'Nenhum aluno encontrado.' });
         }
 
         res.json(registros);
     } catch (error) {
-        console.error('Erro ao buscar:', error);
-        res.status(500).json({ error: 'Erro ao buscar registros.' });
+        console.error('Erro ao buscar alunos:', error);
+        res.status(500).json({ error: 'Erro ao buscar alunos.' });
     }
 };
 
@@ -39,20 +39,21 @@ export const buscarPorId = async (req, res) => {
     try {
         const { id } = req.params;
 
-        if (isNaN(id)) {
-            return res.status(400).json({ error: 'O ID enviado não é um número válido.' });
+        const parsedId = Number.parseInt(id);
+        if (Number.isNaN(parsedId)) {
+            return res.status(400).json({ error: 'O ID do aluno enviado não é um número válido.' });
         }
 
-        const aluno = await AlunoModel.buscarPorId(parseInt(id));
+        const aluno = await AlunoModel.buscarPorId(parsedId);
 
         if (!aluno) {
-            return res.status(404).json({ error: 'Registro não encontrado de aluno.' });
+            return res.status(404).json({ error: 'Aluno não encontrado.' });
         }
 
         res.json({ data: aluno });
     } catch (error) {
-        console.error('Erro ao buscar:', error);
-        res.status(500).json({ error: 'Erro ao buscar registro de aluno.' });
+        console.error('Erro ao buscar aluno:', error);
+        res.status(500).json({ error: 'Erro ao buscar aluno.' });
     }
 };
 
@@ -60,16 +61,17 @@ export const atualizar = async (req, res) => {
     try {
         const { id } = req.params;
 
-        if (isNaN(id)) return res.status(400).json({ error: 'ID inválido.' });
+        const parsedId = Number.parseInt(id);
+        if (Number.isNaN(parsedId)) return res.status(400).json({ error: 'ID inválido.' });
 
         if (!req.body) {
             return res.status(400).json({ error: 'Corpo da requisição vazio. Envie os dados!' });
         }
 
-        const aluno = await AlunoModel.buscarPorId(parseInt(id));
+        const aluno = await AlunoModel.buscarPorId(parsedId);
 
         if (!aluno) {
-            return res.status(404).json({ error: 'Registro não encontrado para atualizar.' });
+            return res.status(404).json({ error: 'Aluno não encontrado para atualizar.' });
         }
 
         if (req.body.nome !== undefined) aluno.nome = req.body.nome;
@@ -79,10 +81,10 @@ export const atualizar = async (req, res) => {
 
         const data = await aluno.atualizar();
 
-        res.json({ message: `O registro "${data.nome}" foi atualizado com sucesso!`, data });
+        res.json({ message: `O aluno "${data.nome}" foi atualizado com sucesso!`, data });
     } catch (error) {
-        console.error('Erro ao atualizar:', error);
-        res.status(500).json({ error: 'Erro ao atualizar registro.' });
+        console.error('Erro ao atualizar aluno:', error);
+        res.status(500).json({ error: 'Erro ao atualizar aluno.' });
     }
 };
 
@@ -90,24 +92,20 @@ export const deletar = async (req, res) => {
     try {
         const { id } = req.params;
 
-        if (isNaN(id)) return res.status(400).json({ error: 'ID inválido.' });
+        const parsedId = Number.parseInt(id);
+        if (Number.isNaN(parsedId)) return res.status(400).json({ error: 'ID inválido.' });
 
-        const aluno = await AlunoModel.buscarPorId(parseInt(id));
+        const aluno = await AlunoModel.buscarPorId(parsedId);
 
         if (!aluno) {
-            return res
-                .status(404)
-                .json({ error: 'Registro de aluno não encontrado para deletar.' });
+            return res.status(404).json({ error: 'Aluno não encontrado para deletar.' });
         }
 
         await aluno.deletar();
 
-        res.json({
-            message: `O registro "${aluno.nome}" foi deletado com sucesso!`,
-            deletado: aluno,
-        });
+        res.json({ message: `O aluno "${aluno.nome}" foi deletado com sucesso!`, deletado: aluno });
     } catch (error) {
-        console.error('Erro ao deletar:', error);
-        res.status(500).json({ error: 'Erro ao deletar registro de aluno.' });
+        console.error('Erro ao deletar aluno:', error);
+        res.status(500).json({ error: 'Erro ao deletar aluno.' });
     }
 };
